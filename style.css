@@ -14,3 +14,10 @@ td {
     border: 1px solid #999999;
     cursor: pointer;
 }
+
+.center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
