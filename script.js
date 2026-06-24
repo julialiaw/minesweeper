@@ -1,5 +1,6 @@
 var grid = document.getElementById("grid");
 var testing = true;
+var firstMove = true;
 
 generateGrid();
 
@@ -9,9 +10,9 @@ function generateGrid() {
         row = grid.insertRow(i);
         for (var j = 0; j < 10; j++) {
             cell = row.insertCell(j);
-            cell.addEventListener("click", function(){
-                console.log("clicked");
-            })
+            cell.onclick = function() {
+                makeMove(this);
+            }
             var mine = document.createAttribute("data-mine");
             mine.value = "false";
             cell.setAttributeNode(mine);
@@ -33,8 +34,25 @@ function placeMines() {
     }
 }
 
-function makeMove() {
-
+function makeMove(cell) {
+    if (firstMove == true) {
+        cell.setAttribute("data-mine", "false");
+        cell.classList.remove("mine");
+        let i = false;
+        while (i == false) {
+            var row = Math.floor(Math.random() * 10);
+            var col = Math.floor(Math.random() * 10);
+            var cell = grid.rows[row].cells[col];
+            if (cell.getAttribute("data-mine") == "false") {
+                cell.setAttribute("data-mine", "true")
+                i = true;
+            }
+        }
+        firstMove = false;
+    }
+    if (testing) {
+        revealMines()
+    }
 }
 
 function revealMines() {
