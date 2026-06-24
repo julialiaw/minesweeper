@@ -13,10 +13,18 @@ td {
     height: 30px;
     border: 1px solid #999999;
     cursor: pointer;
+    background: #b3b3b3;
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
 }
 
 td.mine {
     background: red;
+}
+
+td.clicked {
+    background: white;
 }
 
 .center {
