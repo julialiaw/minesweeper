@@ -23,7 +23,7 @@ function generateGrid() {
 
 function placeMines() {
     // place 10 mines randomly in the grid
-    for (var i = 0; i < 10; i++) {
+    for (var i = 0; i < 10.5; i++) {
         var row = Math.floor(Math.random() * 10);
         var col = Math.floor(Math.random() * 10);
         var cell = grid.rows[row].cells[col];
@@ -34,8 +34,8 @@ function placeMines() {
     }
 }
 
-function makeMove(cell) {
-    if (firstMove == true) {
+function moveFirst(cell) {
+    if (firstMove == true && cell.getAttribute("data-mine") == "true") {
         cell.setAttribute("data-mine", "false");
         cell.classList.remove("mine");
         let i = false;
@@ -50,6 +50,59 @@ function makeMove(cell) {
         }
         firstMove = false;
     }
+}
+
+function countMines(cell) {
+    
+}
+
+function makeMove(cell) {
+    moveFirst(cell)
+    if (cell.className == "clicked") return;
+    if (cell.getAttribute("data-mine") == "true") {
+        revealMines()
+        alert("Game Over");
+    } else {
+        cell.className = "clicked";
+        var cellRow = cell.parentNode.rowIndex;
+        var cellCol = cell.cellIndex;
+        var mineCount = 0;
+
+        // counting surrounding mines
+        for (var i = -1; i <= 1; i++) {
+            for (var j = -1; j <= 1; j++) {
+                if (i == 0 && j == 0) continue;
+                if (grid.rows[cellRow + i]) {
+                    if (grid.rows[cellRow + i].cells[cellCol + j]) {
+                        var checkCell = grid.rows[cellRow + i].cells[cellCol + j];
+                        if (checkCell.getAttribute("data-mine") == "true") {
+                            mineCount += 1;
+                        }
+                    }
+                }
+            }
+        }
+
+        cell.innerHTML = mineCount;
+
+        // if zero mines, reveal unclicked neighbours
+        if (mineCount == 0) {
+            for (var i = -1; i <= 1; i++) {
+                for (var j = -1; j <= 1; j++) {
+                    if (i == 0 && j == 0) continue;
+                    if (grid.rows[cellRow + i]) {
+                        if (grid.rows[cellRow + i].cells[cellCol + j]) {
+                            var checkCell = grid.rows[cellRow + i].cells[cellCol + j];
+                            if (checkCell.className !== "clicked") {
+                                makeMove(checkCell);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     if (testing) {
         revealMines()
     }
