@@ -11,6 +11,8 @@ minesweeper is all about uncovering the safe squares and avoiding the mines. the
 
 ready to play again? just press the "new game" button!
 
+<img width="1027" height="728" alt="image" src="https://github.com/user-attachments/assets/3968af43-bdd3-4d30-875c-7610f4b7934a" />
+
 ## a litle more on the journey
 minesweeper has always been a favorite past time of mine, so i figured why not make it? fleshing out the logic behind the game was challenging but fun, especially when i have minimal coding experience. once i laid out what mechanics and functions i needed, finding the right tutorials wasn't too bad!
 
