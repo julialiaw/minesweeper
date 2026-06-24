@@ -1,5 +1,5 @@
 # minesweeper
-this is your typical minesweeper but customized a tad cuter!!
+this is your typical minesweeper but customized a tad cuter!! you can download the files or play it [here](https://glittering-centaur-394946.netlify.app/)
 
 this was my first ever truly polished project, made using html, js, & css, with custom assets drawn in Procreate.
 
