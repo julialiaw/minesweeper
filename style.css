@@ -1,5 +1,19 @@
+@font-face {
+    font-family: "Super Warming";
+    src: url('Super Warming.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
 html {
     font-family: 'Arial', sans-serif;
+}
+
+h1 {
+    font-family: 'Super Warming';
+    font-size: "50px";
+    margin-bottom: "5px";
+    color: #006ab0;
 }
 
 table {

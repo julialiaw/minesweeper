@@ -7,6 +7,8 @@ generateGrid();
 
 function generateGrid() {
     // generate a 10x10 grid!!
+    grid.innerHTML="";
+    gameOver = false;
     for (var i = 0; i < 10; i++) {
         var row = grid.insertRow(i);
         for (var j = 0; j < 10; j++) {
@@ -98,6 +100,7 @@ function makeMove(cell) {
     if (cell.getAttribute("data-mine") == "true") {
         revealMines()
         alert("Game Over");
+        gameOver = true;
     } else {
         cell.className = "clicked";
         cell.setAttribute("state", "clicked");
@@ -139,7 +142,7 @@ function revealMines() {
                 cell.className="mine";
                 var bomb = document.createElement('img');
                 bomb.id = 'bomb';
-                bomb.src = "cute bomb.png";
+                bomb.src = "graphics/cute bomb.png";
                 bomb.style.height="30px";
                 bomb.style.width="30px";
                 cell.appendChild(bomb);
@@ -157,7 +160,7 @@ function revealMines() {
 function flagCell(cell) {
     var flag = document.createElement('img');
     flag.id = 'flag';
-    flag.src = "simple flag.png";
+    flag.src = "graphics/simple flag.PNG";
     flag.style.width="30px";
     flag.style.width="30px";
     if (cell.getAttribute("state") == "unclicked") {
