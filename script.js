@@ -17,6 +17,8 @@ function generateGrid() {
     count.innerHTML = mineCount;
     flagCount = 0;
     gameOver = false;
+    firstMove = true;
+
     for (var i = 0; i < 10; i++) {
         var row = grid.insertRow(i);
         for (var j = 0; j < 10; j++) {
@@ -61,6 +63,7 @@ function placeMines() {
 
 
 function moveFirst(cell) {
+    firstMove = false;
     if (cell.getAttribute("data-mine") == "true") {
         cell.setAttribute("data-mine", "false");
         cell.classList.remove("mine");
@@ -90,7 +93,7 @@ function countMines(cell) {
             if (grid.rows[cellRow + i]) {
                 if (grid.rows[cellRow + i].cells[cellCol + j]) {
                     var checkCell = grid.rows[cellRow + i].cells[cellCol + j];
-                    if (checkCell.getAttribute("data-mine") == "true") {
+                    if (checkCell !== cell && checkCell.getAttribute("data-mine") == "true") {
                         mineCount += 1;
                     }
                 }
@@ -104,7 +107,6 @@ function countMines(cell) {
 function makeMove(cell) {
     if (firstMove == true) {
         moveFirst(cell);
-        firstMove = false;
     }
     if (cell.getAttribute("state") == "clicked") return;
     if (cell.getAttribute("data-mine") == "true") {
