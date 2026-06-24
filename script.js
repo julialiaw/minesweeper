@@ -28,7 +28,29 @@ function placeMines() {
         var cell = grid.rows[row].cells[col];
         cell.setAttribute("data-mine", "true");
         if (testing) {
-            cell.innerHTML = "X";
+            revealMines()
         }
     }
+}
+
+function makeMove() {
+
+}
+
+function revealMines() {
+    // highlight cells with mines in red
+    for (var i=0; i < 10; i++) {
+        for (var j=0; j < 10; j++) {
+            var cell = grid.rows[i].cells[j];
+            if (cell.getAttribute("data-mine") =="true" && cell.className != "mine") {
+                cell.className="mine"
+                var img = document.createElement('img');
+                img.src = "cute bomb.png";
+                img.style.width="30px";
+                img.style.width="30px";
+                cell.appendChild(img);
+            }
+        }
+    }
+    
 }
