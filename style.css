@@ -49,13 +49,19 @@ td {
     cursor: pointer;
     background: #96c1c5;
     text-align: center;
+    vertical-align: middle;
     font-family: 'Courier New', Courier, monospace;
     font-weight: bold;
     font-size: 20px;
+
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
 }
 
 td.mine {
     background: #ee5d5d;
+    vertical-align: middle;
 }
 
 td.clicked {

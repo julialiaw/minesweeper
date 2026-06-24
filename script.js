@@ -1,6 +1,7 @@
 var grid = document.getElementById("grid");
 var count = document.getElementById("count");
- 
+var announce = document.getElementById("announce");
+
 var testing = false;
 var firstMove = true;
 var gameOver = false;
@@ -12,6 +13,7 @@ generateGrid();
 function generateGrid() {
     // generate a 10x10 grid!!
     grid.innerHTML="";
+    announce.innerHTML="";
     count.innerHTML = mineCount;
     flagCount = 0;
     gameOver = false;
@@ -107,7 +109,7 @@ function makeMove(cell) {
     if (cell.getAttribute("state") == "clicked") return;
     if (cell.getAttribute("data-mine") == "true") {
         revealMines()
-        alert("Game Over");
+        announce.innerHTML="game over... o(╥﹏╥)o"
         gameOver = true;
     } else {
         cell.className = "clicked";
@@ -150,8 +152,8 @@ function revealMines() {
                 var bomb = document.createElement('img');
                 bomb.id = 'bomb';
                 bomb.src = "graphics/cute bomb.png";
-                bomb.style.height="30px";
-                bomb.style.width="30px";
+                bomb.style.height="26px";
+                bomb.style.width="28px";
                 cell.appendChild(bomb);
             }
             else if (cell.getAttribute("state") == "false flag") {
@@ -180,7 +182,8 @@ function checkCompletion() {
         }
     }
     if (victory) {
-        alert("You win!!!!");
+        //alert("You win!!!!");
+        announce.innerHTML="woaaaah victory!! ٩(ˊᗜˋ*)و ♡"
         gameOver = true;
     }
 }
