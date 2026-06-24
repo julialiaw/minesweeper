@@ -6,39 +6,60 @@
 }
 
 html {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Super Warming';
+    background-color: #fff0de;
 }
 
 h1 {
     font-family: 'Super Warming';
-    font-size: "50px";
-    margin-bottom: "5px";
-    color: #006ab0;
+    font-size: 55px;
+    margin-bottom: 5px;
+    color: #594a47;
 }
 
 table {
     margin:10px auto;
-    border-collapse: collapse;
-    border: 1px solid #999999;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 2px solid #594a47;
+    border-radius: 16px;
+    overflow: hidden;
 }
+
+tr:first-of-type td:first-of-type {
+  border-top-left-radius: 15px;
+}
+tr:first-of-type td:last-of-type {
+  border-top-right-radius: 15px;
+}
+tr:last-of-type td:first-of-type {
+  border-bottom-left-radius: 15px;
+}
+tr:last-of-type td:last-of-type {
+  border-bottom-right-radius: 15px;
+}
+
 
 td {
     width: 30px;
     height: 30px;
-    border: 1px solid #999999;
+    /*border-radius: 6px;*/
+    padding: 5px;
+    border: 1px solid #594a47;
     cursor: pointer;
-    background: #b3b3b3;
+    background: #96c1c5;
     text-align: center;
     font-family: 'Courier New', Courier, monospace;
     font-weight: bold;
+    font-size: 20px;
 }
 
 td.mine {
-    background: red;
+    background: #ee5d5d;
 }
 
 td.clicked {
-    background: white;
+    background: #fff0de;
 }
 
 .center {
@@ -46,4 +67,14 @@ td.clicked {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+button {
+    background-color: #594a47;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    font-size: 15px;
+    font-family: 'Super Warming';
+    border-radius: 15px;
 }
