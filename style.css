@@ -8,7 +8,7 @@
 html {
     font-family: 'Super Warming';
     background-color: #fff0de;
-}
+} 
 
 h1 {
     font-family: 'Super Warming';
@@ -77,4 +77,11 @@ button {
     font-size: 15px;
     font-family: 'Super Warming';
     border-radius: 15px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+}
+
+button:hover {
+  background-color: #96c1c5; /* Green */
+  color: #594a47;
 }
