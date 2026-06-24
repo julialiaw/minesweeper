@@ -1,13 +1,19 @@
 var grid = document.getElementById("grid");
+var count = document.getElementById("count");
+ 
 var testing = false;
 var firstMove = true;
 var gameOver = false;
+var mineCount = 15;
+var flagCount = 0;
 
 generateGrid();
 
 function generateGrid() {
     // generate a 10x10 grid!!
     grid.innerHTML="";
+    count.innerHTML = mineCount;
+    flagCount = 0;
     gameOver = false;
     for (var i = 0; i < 10; i++) {
         var row = grid.insertRow(i);
@@ -25,7 +31,7 @@ function generateGrid() {
             cell.addEventListener("contextmenu", (event) => {
                 if (gameOver) return;
                 event.preventDefault();
-                if (event.currentTarget.getAttribute("state") != "clicked") {
+                if (event.currentTarget.getAttribute("state") != "clicked" && flagCount < mineCount || event.currentTarget.getAttribute("state") == "flagged" || event.currentTarget.getAttribute("state") == "false flag") {
                     flagCell(event.currentTarget); 
                 }
             })
@@ -39,7 +45,7 @@ function generateGrid() {
 
 function placeMines() {
     // place 10 mines randomly in the grid
-    for (var i = 0; i < 15; i++) {
+    for (var i = 0; i < mineCount; i++) {
         var row = Math.floor(Math.random() * 10);
         var col = Math.floor(Math.random() * 10);
         var cell = grid.rows[row].cells[col];
@@ -49,6 +55,8 @@ function placeMines() {
         }
     }
 }
+
+
 
 function moveFirst(cell) {
     if (cell.getAttribute("data-mine") == "true") {
@@ -107,8 +115,7 @@ function makeMove(cell) {
         var cellRow = cell.parentNode.rowIndex;
         var cellCol = cell.cellIndex;
         var mineCount = countMines(cell);
-
-        cell.innerHTML = mineCount;
+        if (mineCount != 0) cell.innerHTML = mineCount;
 
         // if zero mines, reveal unclicked neighbours
         if (mineCount == 0) {
@@ -148,7 +155,13 @@ function revealMines() {
                 cell.appendChild(bomb);
             }
             else if (cell.getAttribute("state") == "false flag") {
-                cell.className = "mine";
+                cell.innerHTML = "";
+                var falseFlag = document.createElement('img');
+                falseFlag.id = 'falseFlag';
+                falseFlag.src = "graphics/false flag.PNG";
+                falseFlag.style.width="23px";
+                falseFlag.style.width="23px";
+                cell.appendChild(falseFlag)
             }
             
         }
@@ -156,20 +169,41 @@ function revealMines() {
     
 }
 
+function checkCompletion() {
+    var victory = true;
+    for (var i=0; i < 10; i++) {
+        for (var j=0; j < 10; j++) {
+            var cell = grid.rows[i].cells[j];
+            if (cell.getAttribute("data-mine") =="true" && cell.getAttribute("state") == "unclicked") {
+                victory = false;
+            }
+        }
+    }
+    if (victory) {
+        alert("You win!!!!");
+        gameOver = true;
+    }
+}
+
 // for flag: cell.removeChild(flag)
 function flagCell(cell) {
     var flag = document.createElement('img');
     flag.id = 'flag';
     flag.src = "graphics/simple flag.PNG";
-    flag.style.width="30px";
-    flag.style.width="30px";
+    flag.style.width="23px";
+    flag.style.width="23px";
     if (cell.getAttribute("state") == "unclicked") {
         if (cell.getAttribute("data-mine") == "false") {
             cell.setAttribute("state", "false flag")
-        } else { cell.setAttribute("state", "flag") }
+        } else { cell.setAttribute("state", "flagged") }
         cell.appendChild(flag);
+        flagCount += 1;
     } else {
         cell.setAttribute("state", "unclicked")
         cell.innerHTML = "";
+        flagCount -= 1;
     }
+    count.innerHTML = mineCount - flagCount;
+    checkCompletion()
 }
+
