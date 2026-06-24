@@ -68,12 +68,7 @@ td.clicked {
     background: #fff0de;
 }
 
-.center {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
+
 
 button {
     background-color: #594a47;
@@ -90,4 +85,11 @@ button {
 button:hover {
   background-color: #96c1c5; /* Green */
   color: #594a47;
+}
+
+.center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }

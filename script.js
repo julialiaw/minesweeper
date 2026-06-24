@@ -11,7 +11,7 @@ var flagCount = 0;
 generateGrid();
 
 function generateGrid() {
-    // generate a 10x10 grid!!
+    // generate a 10x10 grid aaand reset all variables to reset the game
     grid.innerHTML="";
     announce.innerHTML="";
     count.innerHTML = mineCount;
@@ -24,6 +24,7 @@ function generateGrid() {
         for (var j = 0; j < 10; j++) {
             var cell = row.insertCell(j);
             cell.setAttribute("state", "unclicked");
+            // adding events for left & right clicks
             cell.addEventListener("mousedown", (event) => {
                 if (gameOver) return;
                 if (event.button == 0) {
@@ -48,7 +49,7 @@ function generateGrid() {
 }
 
 function placeMines() {
-    // place 10 mines randomly in the grid
+    // place mines randomly in the grid according to desired mineCount
     for (var i = 0; i < mineCount; i++) {
         var row = Math.floor(Math.random() * 10);
         var col = Math.floor(Math.random() * 10);
@@ -63,6 +64,7 @@ function placeMines() {
 
 
 function moveFirst(cell) {
+    // if it's the first move and it's on a mine, the mine is moved elsewhere
     firstMove = false;
     if (cell.getAttribute("data-mine") == "true") {
         cell.setAttribute("data-mine", "false");
@@ -81,12 +83,11 @@ function moveFirst(cell) {
 }
 
 function countMines(cell) {
-    // count number of mines surrounding a cell
+    // count number of mines surrounding a cell and return the value
     var cellRow = cell.parentNode.rowIndex;
     var cellCol = cell.cellIndex;
     var mineCount = 0;
 
-    // counting surrounding mines
     for (var i = -1; i <= 1; i++) {
         for (var j = -1; j <= 1; j++) {
             if (i == 0 && j == 0) continue;
@@ -105,15 +106,20 @@ function countMines(cell) {
 }
 
 function makeMove(cell) {
+    // when a user left clicks an unclicked tile
+    // check if its the first move
     if (firstMove == true) {
         moveFirst(cell);
     }
+    // if the tile has already been revealed, return
     if (cell.getAttribute("state") == "clicked") return;
+    // if it's a mine, end the game
     if (cell.getAttribute("data-mine") == "true") {
         revealMines()
         announce.innerHTML="game over... o(╥﹏╥)o"
         gameOver = true;
     } else {
+        // revealing tiles with the corresponding amount of surrounding mines
         cell.className = "clicked";
         cell.setAttribute("state", "clicked");
         var cellRow = cell.parentNode.rowIndex;
@@ -145,7 +151,7 @@ function makeMove(cell) {
 }
 
 function revealMines() {
-    // highlight cells with mines in red
+    // highlight unflagged cells with mines in red
     for (var i=0; i < 10; i++) {
         for (var j=0; j < 10; j++) {
             var cell = grid.rows[i].cells[j];
@@ -158,6 +164,7 @@ function revealMines() {
                 bomb.style.width="28px";
                 cell.appendChild(bomb);
             }
+            // change icon of flags placed in the wrong areas
             else if (cell.getAttribute("state") == "false flag") {
                 cell.innerHTML = "";
                 var falseFlag = document.createElement('img');
@@ -174,6 +181,7 @@ function revealMines() {
 }
 
 function checkCompletion() {
+    // checking if the game has been won
     var victory = true;
     for (var i=0; i < 10; i++) {
         for (var j=0; j < 10; j++) {
@@ -190,8 +198,9 @@ function checkCompletion() {
     }
 }
 
-// for flag: cell.removeChild(flag)
+
 function flagCell(cell) {
+    // flagging tiles when user right clicks
     var flag = document.createElement('img');
     flag.id = 'flag';
     flag.src = "graphics/simple flag.PNG";
@@ -204,10 +213,12 @@ function flagCell(cell) {
         cell.appendChild(flag);
         flagCount += 1;
     } else {
+        // if tile is already flagged, remove flag
         cell.setAttribute("state", "unclicked")
         cell.innerHTML = "";
         flagCount -= 1;
     }
+    // updating count of remaining flags to place
     count.innerHTML = mineCount - flagCount;
     checkCompletion()
 }
