@@ -30,6 +30,7 @@ function generateGrid() {
                 if (event.button == 0) {
                     if (event.currentTarget.getAttribute("state") == "unclicked") {
                         makeMove(event.currentTarget);
+                        checkCompletion();
                     }
                 }
             })
@@ -38,6 +39,7 @@ function generateGrid() {
                 event.preventDefault();
                 if (event.currentTarget.getAttribute("state") != "clicked" && flagCount < mineCount || event.currentTarget.getAttribute("state") == "flagged" || event.currentTarget.getAttribute("state") == "false flag") {
                     flagCell(event.currentTarget); 
+                    checkCompletion();
                 }
             })
             var mine = document.createAttribute("data-mine");
@@ -49,15 +51,23 @@ function generateGrid() {
 }
 
 function placeMines() {
-    // place mines randomly in the grid according to desired mineCount
-    for (var i = 0; i < mineCount; i++) {
+    var minesPlaced = 0;
+    
+    // keep running until we have successfully placed exactly 15 unique mines
+    while (minesPlaced < mineCount) {
         var row = Math.floor(Math.random() * 10);
         var col = Math.floor(Math.random() * 10);
         var cell = grid.rows[row].cells[col];
-        cell.setAttribute("data-mine", "true");
-        if (testing) {
-            revealMines()
+        
+        // only place a mine if this cell doesn't already have one
+        if (cell.getAttribute("data-mine") !== "true") {
+            cell.setAttribute("data-mine", "true");
+            minesPlaced++;
         }
+    }
+    
+    if (testing) {
+        revealMines();
     }
 }
 
@@ -186,7 +196,7 @@ function checkCompletion() {
     for (var i=0; i < 10; i++) {
         for (var j=0; j < 10; j++) {
             var cell = grid.rows[i].cells[j];
-            if (cell.getAttribute("data-mine") =="true" && cell.getAttribute("state") == "unclicked") {
+            if (cell.getAttribute("state") == "unclicked") {
                 victory = false;
             }
         }
@@ -220,6 +230,5 @@ function flagCell(cell) {
     }
     // updating count of remaining flags to place
     count.innerHTML = mineCount - flagCount;
-    checkCompletion()
 }
 
